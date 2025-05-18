@@ -2,8 +2,11 @@ import streamlit as st
 import joblib
 
 #loading and vectorizing the model
-model = joblib.load("rf_emotion_model.pkl")
-vectorizer = joblib.load("rf_vectorizer.pkl")
+# model = joblib.load("rf_emotion_model.pkl")
+model = joblib.load("Models/rf_emotion_model.pkl")
+# vectorizer = joblib.load("rf_vectorizer.pkl")
+vectorizer = joblib.load("Models/rf_vectorizer.pkl")
+
 
 try:
     le = joblib.load("label_encoder.pkl")
@@ -13,7 +16,8 @@ except:
 
 #function for precicting emotion
 def predict_emotion(text):
-    vector = vectorizer.transform([text])
+    #vector = vectorizer.transform([text])
+    vector=vectorizer.encode(text).reshape(1,-1)
     prediction = model.predict(vector)
     if use_label_encoder:
         return le.inverse_transform(prediction)[0]
